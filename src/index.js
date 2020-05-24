@@ -5,9 +5,10 @@ import './index.css';
 const Square = (props) => {
     return (
         <button
-            // className={props.highlight ? 'winning-square' : 'square'}
-            className='square'
-            onClick={props.onClick}>
+            className={'square ' + (props.highlight ? 'winning-square' : '')}
+            // className='square'
+            onClick={props.onClick}
+        >
             {props.value}
         </button>
     );
@@ -18,6 +19,7 @@ class Board extends React.Component {
         return (
             // React.createElement(Square, { value: this.state.squares[i], onClick: () => this.handleClick(i) })
             <Square
+                highlight={this.props.winningSquares.includes(i)}
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
             />
@@ -54,7 +56,6 @@ class Game extends React.Component {
             history: [{ squares: Array(9).fill(null) }],
             xIsNext: true,
             stepNumber: 0,
-            winningSquares: null 
         }
     }
 
@@ -99,11 +100,7 @@ class Game extends React.Component {
 
         let status;
         if (winner) {
-            status = `Winner: ${winner}!`;
-            
-            // highlight winning squares
-            const winningSquares = calculateWinningSquares(current.squares, winner);
-            console.log('winning squares: ', winningSquares);
+            status = `Winner: ${winner.player}!`;
         } else {
             status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
         }
@@ -112,6 +109,7 @@ class Game extends React.Component {
             <div className="game">
                 <div className="game-board">
                     <Board
+                        winningSquares={winner ? winner.line : []}
                         squares={current.squares}
                         onClick={(i) => this.handleClick(i)} />
                 </div>
@@ -122,12 +120,6 @@ class Game extends React.Component {
             </div>
         );
     }
-}
-
-function calculateWinningSquares(squares, winner) {
-    return squares.map((square, idx) => {
-        return square === winner ? idx : null;
-    }).filter(i => i || i === 0);
 }
 
 function calculateWinner(squares) {
@@ -144,7 +136,7 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return { player: squares[a], line: [a, b, c] };
         }
     }
     return null;
