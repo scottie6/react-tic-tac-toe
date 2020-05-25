@@ -110,6 +110,8 @@ class Game extends React.Component {
         let status;
         if (winner) {
             status = `Winner: ${winner.player}!`;
+        } else if (!current.squares.includes(null)) {
+            status = 'Game ends in a draw :/';
         } else {
             status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
         }
@@ -125,7 +127,6 @@ class Game extends React.Component {
                 <div className="game-info">
                     <div>{ status }</div>
                     <ol>{ this.state.sortDesc ? moves : moves.reverse() }</ol>
-
                     <button onClick={() => this.handleSort()}>
                         Toggle Sort
                     </button>
