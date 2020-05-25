@@ -52,3 +52,17 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+.game-info-header {
+    display: flex;
+}
+
+.reset-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.sort-btn {
+    margin-left: 1rem;
+}

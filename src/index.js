@@ -89,6 +89,17 @@ class Game extends React.Component {
         })
     }
 
+    handleReset() {
+        this.setState({
+            history: [{
+                squares: Array(9).fill(null),
+            }],
+            xIsNext: true,
+            stepNumber: 0,
+            sortDesc: true
+        })
+    }
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
@@ -123,13 +134,16 @@ class Game extends React.Component {
                         winningSquares={winner ? winner.line : []}
                         squares={current.squares}
                         onClick={(i) => this.handleClick(i)} />
+                    <div className='reset-btn'>
+                        <button onClick={() => this.handleReset()}>Reset Game</button>
+                    </div>
                 </div>
                 <div className="game-info">
-                    <div>{ status }</div>
+                    <div className='game-info-header'>
+                        <div>{status}</div>
+                        <button className='sort-btn' onClick={() => this.handleSort()}>Sort Moves</button>
+                    </div>
                     <ol>{ this.state.sortDesc ? moves : moves.reverse() }</ol>
-                    <button onClick={() => this.handleSort()}>
-                        Toggle Sort
-                    </button>
                 </div>
             </div>
         );
