@@ -1,6 +1,18 @@
+.App-header {
+  background-color: #282c34;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  margin-bottom: 2rem;
+}
+
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+  font: 18px "Century Gothic", Futura, sans-serif;
+  margin: 0;
 }
 
 ol, ul {
@@ -19,17 +31,33 @@ ol, ul {
 
 .square {
   background: #fff;
-  border: 1px solid #999;
+  border: 1px solid #37474f;
   float: left;
-  font-size: 24px;
+  font-size: 56px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  height: 80px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 80px;
+}
+
+button {
+    font-size: 14px;
+}
+
+li button {
+    width: 170px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.square:hover {
+    background: #e0e0e0;
+    cursor: pointer;
 }
 
 .winning-square {
@@ -47,14 +75,16 @@ ol, ul {
 .game {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .game-info {
   margin-left: 20px;
+  width: 200px;
 }
 
-.game-info-header {
-    display: flex;
+.status {
+    margin-bottom: 1rem;
 }
 
 .reset-btn {

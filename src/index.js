@@ -128,22 +128,25 @@ class Game extends React.Component {
         }
 
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        winningSquares={winner ? winner.line : []}
-                        squares={current.squares}
-                        onClick={(i) => this.handleClick(i)} />
-                    <div className='reset-btn'>
-                        <button onClick={() => this.handleReset()}>Reset Game</button>
+            <div className="App">
+                <header className="App-header">
+                    <p>react tic-tac-toe</p>
+                </header>
+                <div className="game">
+                    <div className="game-board">
+                        <Board
+                            winningSquares={winner ? winner.line : []}
+                            squares={current.squares}
+                            onClick={(i) => this.handleClick(i)} />
+                        <div className='reset-btn'>
+                            <button onClick={() => this.handleReset()}>Reset Game</button>
+                        </div>
                     </div>
-                </div>
-                <div className="game-info">
-                    <div className='game-info-header'>
-                        <div>{status}</div>
+                    <div className="game-info">
+                        <div className='status'>{status}</div>
                         <button className='sort-btn' onClick={() => this.handleSort()}>Sort Moves</button>
+                        <ol>{ this.state.sortDesc ? moves : moves.reverse() }</ol>
                     </div>
-                    <ol>{ this.state.sortDesc ? moves : moves.reverse() }</ol>
                 </div>
             </div>
         );
