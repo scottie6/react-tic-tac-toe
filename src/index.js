@@ -6,7 +6,6 @@ const Square = (props) => {
     return (
         <button
             className={'square ' + (props.highlight ? 'winning-square' : '')}
-            // className='square'
             onClick={props.onClick}
         >
             {props.value}
@@ -17,8 +16,8 @@ const Square = (props) => {
 class Board extends React.Component {
     renderSquare(i) {
         return (
-            // React.createElement(Square, { value: this.state.squares[i], onClick: () => this.handleClick(i) })
             <Square
+                key={i}
                 highlight={this.props.winningSquares.includes(i)}
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
@@ -28,23 +27,16 @@ class Board extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
+            <div>{ [0, 1, 2].map((i) => {
+                return (
+                    <div key={i} className="board-row">
+                        {[0, 1, 2].map((j) => {
+                            let index = Math.floor((3 * j) / 3) + 3 * i;
+                            return this.renderSquare(index)
+                        })}
+                    </div>
+                )})
+            }</div>
         );
     }
 }
@@ -58,6 +50,7 @@ class Game extends React.Component {
             }],
             xIsNext: true,
             stepNumber: 0,
+            sortDesc: true
         }
     }
 
@@ -80,7 +73,6 @@ class Game extends React.Component {
             }]),
             xIsNext: !this.state.xIsNext,
             stepNumber: history.length,
-
         });
     }
 
@@ -89,6 +81,12 @@ class Game extends React.Component {
             stepNumber: step,
             xIsNext: (step % 2) === 0,
         });
+    }
+
+    handleSort() {
+        this.setState({
+            sortDesc: !this.state.sortDesc
+        })
     }
 
     render() {
@@ -126,7 +124,11 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{ status }</div>
-                    <ol>{ moves }</ol>
+                    <ol>{ this.state.sortDesc ? moves : moves.reverse() }</ol>
+
+                    <button onClick={() => this.handleSort()}>
+                        Toggle Sort
+                    </button>
                 </div>
             </div>
         );
